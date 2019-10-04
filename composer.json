@@ -1,0 +1,21 @@
+{
+  "name": "waryway/image-server-rest",
+  "description": "A microservice API to provide endpoints around images.",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kyle Wiering",
+      "email": "kyle@waryway.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Waryway\\ImageServerRest\\": "src/"
+    }
+  },
+  "require": {
+    "waryway/micro-service-engine": "1.0.1",
+    "waryway/php-traits-library": "1.0.4"
+  }
+}
