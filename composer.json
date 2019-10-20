@@ -14,8 +14,12 @@
       "Waryway\\ImageServerRest\\": "src/"
     }
   },
+  "require-dev": {
+    "zircote/swagger-php": "dev-master"
+  },
   "require": {
     "waryway/micro-service-engine": "1.0.1",
-    "waryway/php-traits-library": "1.0.4"
+    "waryway/php-traits-library": "1.0.4",
+    "ext-json": "*"
   }
 }
