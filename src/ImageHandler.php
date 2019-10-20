@@ -31,10 +31,23 @@ class ImageHandler {
 
     public function getRoutes() {
         return [
+            /* @uses ImageHandler::getImageStatistics */
             ['method'=>['GET'], 'route' => '/images', 'handler' => [__CLASS__,'getImageStatistics']],
         ];
     }
 
+    /**
+     * @OA\Get(
+     *     path="/images",
+     *     @OA\Response(response="200", description="Returns available image statistics", @OA\MediaType(
+     *         mediaType="application/json",
+     *         @OA\Schema(ref="#/components/schemas/ImageMetaData")
+     *     )),
+     *     @OA\Response(response="404", description="Returns a 404 if the server cannot find the path to the images.", @OA\MediaType(
+     *         mediaType="text/html",
+     *     ))
+     * )
+     */
     public static function getImageStatistics() {
         $response = [
             'body' => '404',
@@ -42,15 +55,13 @@ class ImageHandler {
             'headers' => ['Content-Type' => 'text/html']
         ];
 
-
-
         if (file_exists(self::getImagePath())) {
-            // print_r(array_keys($params));
             $response['code'] = 200;
             $response['body'] = self::calculateImageStatistics();
             $response['headers'] = ['Content-Type' => 'application/json'];
         }
-        return $response;//new Response($response['code'], $response['headers'], $response['body']);
+
+        return $response;
     }
 
     /**
@@ -68,12 +79,13 @@ class ImageHandler {
                     if (is_dir(self::getImagePath().DIRECTORY_SEPARATOR.$entry)) {
                         break;
                     }
-                    $result->{$entry} = [
-                        "name" => $entry,
-                        "size" => filesize(self::getImagePath().DIRECTORY_SEPARATOR.$entry),
-                        "type" => filetype(self::getImagePath().DIRECTORY_SEPARATOR.$entry),
-                        "url" => "/images/assets/" . $entry,
-                    ];
+                    $metaData = new ImageMetaData();
+                    $metaData->name = $entry;
+                    $metaData->size = filesize(self::getImagePath().DIRECTORY_SEPARATOR.$entry);
+                    $metaData->type = filetype(self::getImagePath().DIRECTORY_SEPARATOR.$entry);
+                    $metaData->url  = "/images/assets/" . $entry;
+
+                    $result->{$entry} = $metaData;
                     break;
                 }
 
