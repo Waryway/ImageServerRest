@@ -21,7 +21,7 @@ class ImageHandler {
      */
     public static function setImagePath($ImagePath=null)
     {
-        self::$ImagePath = is_null($ImagePath) ? dirname(__DIR__) . '/assets/images/': $ImagePath;
+        self::$ImagePath = is_null($ImagePath) ? rtrim(dirname(__DIR__),'/') . '/assets/images/': $ImagePath;
     }
 
 
