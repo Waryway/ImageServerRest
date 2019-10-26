@@ -16,14 +16,15 @@ use Waryway\MicroServiceEngine\BaseRouter;
 class Router extends BaseRouter {
     public function __construct() {
 
+
         /* @uses Router::swagger */
-        $this->setRoute(['GET'], '/swagger.json', 'swagger');
+        $this->setRoute(['GET'], '/swagger.json', [__CLASS__,'swagger']);
 
         /* @uses Router::helloWorld */
-        $this->setRoute(['GET', 'POST', 'PUT', 'DELETE'], '/', 'helloWorld');
+        $this->setRoute(['GET', 'POST', 'PUT', 'DELETE'], '/', [__CLASS__,'helloWorld']);
         $imageHandlerRoutes = (new ImageHandler())->getRoutes();
 
-        foreach($imageHandlerRoutes as $imageHandlerRoute) {
+        foreach ($imageHandlerRoutes as $imageHandlerRoute) {
             $this->setRoute($imageHandlerRoute['method'], $imageHandlerRoute['route'], $imageHandlerRoute['handler']);
         }
         
